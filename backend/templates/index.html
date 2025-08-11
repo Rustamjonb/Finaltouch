@@ -1,0 +1,782 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Oybek Travel — Turizm Andijon | Sayohatlar va Turlar</title>
+        <meta name="description" content="Oybek Travel Andijon — turizm, sayohatlar, arzon turlar va eng yaxshi manzillar. Biz bilan dunyoni kashf eting!">
+        <meta name="keywords" content="Oybek Travel, turizm, Andijon, sayohat, turlar, sayohatlar, arzon tur paketlar">
+        
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+     
+
+        <!-- CSS FILES -->        
+                      
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/templatemo-topic-listing.css' %}">
+        <!-- Styles (put in your CSS file or inside <style> in head) -->
+            <style>
+                .floating-social{
+                  position: fixed;
+                  right: 18px;
+                  bottom: 18px;
+                  z-index: 9999;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+                  align-items: center;
+                  pointer-events: none;
+                }
+                
+                .float-btn{
+                  pointer-events: auto;
+                  display: inline-grid;
+                  place-items: center;
+                  width: 42px;
+                  height: 42px;
+                  border-radius: 50%;
+                  text-decoration: none;
+                  color: white;
+                  transition: transform 160ms, box-shadow 160ms;
+                  will-change: transform, box-shadow;
+                  animation: neonGlow 2s infinite alternate ease-in-out;
+                }
+                
+                .float-btn svg{ display:block; }
+                
+                /* Neon glow animation */
+                @keyframes neonGlow {
+                  0%   { box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 16px currentColor, 0 0 32px currentColor; }
+                  100% { box-shadow: 0 0 16px rgba(255,255,255,0.9), 0 0 32px currentColor, 0 0 48px currentColor; }
+                }
+                
+                .float-btn.instagram{
+                  background: radial-gradient(circle at 30% 20%, #ffd16a 0%, #f27063 35%, #b5319b 70%);
+                }
+                
+                .float-btn.telegram{
+                  background: linear-gradient(135deg, #26a6f2 0%, #2aa8e6 100%);
+                }
+                
+                /* Hover effect */
+                .float-btn:hover{
+                  transform: scale(1.1);
+                }
+                </style>
+    </head>
+    
+    <body id="top">
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <img class="logo" src="{% static 'images/logo.jpg' %}" alt="">
+                        <span class="navh">Oybek Travel</span>
+                    </a>
+
+                  
+    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_1">Asosiy</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_2">Sayohatlar</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_3">Ish jarayoni</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_4">Haqimizda</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_5">Aloqa</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sahifalar</a>
+
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="topics-listing.html">Sayohatlar</a></li>
+
+                                    <li><a class="dropdown-item" href="contact.html">Davlatlar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                       
+                    </div>
+                </div>
+            </nav>
+            
+
+            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-8 col-12 mx-auto">
+                            <h1 class="text-white text-center">Oybek Travel</h1>
+
+                            <h6 class="text-center">Maxsus sayohatlarimiz: </h6>
+
+                            <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
+                              
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="featured-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        {% for tour in tours %}
+                        <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                            <div class="custom-block bg-white shadow-lg">
+                                <form action="{% url 'payment' %}" method="get">
+
+                                    <input type="hidden" name="tour_id" value="{{ tour.id }}">
+                                    <button type="submit" style="all: unset; width: 100%; cursor: pointer;">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">{{ tour.title }}</h5>
+                                                <p class="mb-0">{{ tour.description }}</p>
+                                            </div>
+                                            <span class="badge bg-design rounded-pill ms-auto">${{ tour.price }}</span>
+                                        </div>
+                                        {% if tour.image %}
+                                        <img src="{{ tour.image.url }}" class="custom-block-image img-fluid" alt="{{ tour.title }}">
+                                    {% else %}
+                                        <img src="{% static 'images/arslon.jpg' %}" class="custom-block-image img-fluid" alt="{{ tour.title }}">
+                                    {% endif %}
+                                    
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+
+                      
+
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="explore-section section-padding" id="section_2">
+                <div class="container">
+                    <div class="row">
+            
+                        <div class="col-12 text-center">
+                            <h2 class="mb-4">Sayohatlarimiz</h1>
+                        </div>
+            
+                    </div>
+                </div>
+            
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="design-tab" data-bs-toggle="tab" data-bs-target="#design-tab-pane" type="button" role="tab" aria-controls="design-tab-pane" aria-selected="true">Mashxur</button>
+                            </li>
+            
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="marketing-tab" data-bs-toggle="tab" data-bs-target="#marketing-tab-pane" type="button" role="tab" aria-controls="marketing-tab-pane" aria-selected="false">Ziyorat</button>
+                            </li>
+                          
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music-tab-pane" type="button" role="tab" aria-controls="music-tab-pane" aria-selected="false">Hordiq</button>
+                            </li>
+            
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education-tab-pane" type="button" role="tab" aria-controls="music-tab-pane" aria-selected="false">Davolanish</button>
+                            </li>
+            
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="finance-tab" data-bs-toggle="tab" data-bs-target="#finance-tab-pane" type="button" role="tab" aria-controls="finance-tab-pane" aria-selected="false">Visa</button>
+                            </li>
+            
+                        </ul>
+                    </div>
+                </div>
+            
+                <div class="container">
+                    <div class="row">
+            
+                        <div class="col-12">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="design-tab-pane" role="tabpanel" aria-labelledby="design-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Sari-Chelek</h5>
+            
+                                                            <p class="mb-0">Tabiat qo'ynidagi 2 kunlik sayohat</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-design rounded-pill ms-auto">40$</span>
+                                                    </div>
+                                                    {% load static %}
+                                                    <img src="{% static 'images/arslon.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Qora-Qo'y</h5>
+            
+                                                                <p class="mb-0">Unitilmas sayohztga tayyormisiz! </p>
+                                                        </div>
+            
+                                                        <span class="badge bg-design rounded-pill ms-auto">10$</span>
+                                                    </div>
+            
+                                                    <img src="{% static 'images/qora.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Arslonbob</h5>
+            
+                                                                <p class="mb-0">2-kunlik sayohat</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-design rounded-pill ms-auto">40$</span>
+                                                    </div>
+            
+                                                    <img src="{% static 'images/arslon.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="tab-pane fade" id="marketing-tab-pane" role="tabpanel" aria-labelledby="marketing-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">Umra safari</h5>
+            
+                                                                <p class="mb-0">Hayotingizdagi eng buyuk sayohatga tayyormisiz?</p>
+                                                            </div>
+            
+                                                            <span class="badge bg-advertising rounded-pill ms-auto">2000</span>
+                                                        </div>
+            
+                                                        <img src="{% static 'images/umra.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+            
+                                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">Umra safari</h5>
+            
+                                                                <p class="mb-0">Hayotingizdagi eng buyuk sayohatga tayyormisiz?</p>
+                                                            </div>
+            
+                                                            <span class="badge bg-advertising rounded-pill ms-auto">2000</span>
+                                                        </div>
+            
+                                                        <img src="{% static 'images/Umra.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+            
+                                            <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="custom-block bg-white shadow-lg">
+                                                    <a href="topics-detail.html">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h5 class="mb-2">Umra safari</h5>
+            
+                                                                <p class="mb-0">Hayotingizdagi eng buyuk sayohatga tayyormisiz?</p>
+                                                            </div>
+            
+                                                            <span class="badge bg-advertising rounded-pill ms-auto">2000</span>
+                                                        </div>
+            
+                                                        <img src="{% static 'images/Umra.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+            
+                                <div class="tab-pane fade" id="finance-tab-pane" role="tabpanel" aria-labelledby="finance-tab" tabindex="0">   <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Sayohat uchun Visalar</h5>
+            
+                                                            <p class="mb-0">Murojat qilish</p>
+            
+            
+                                                        </div>
+            
+                                                        <span class="badge bg-finance rounded-pill ms-auto">on</span>
+                                                    </div>
+            
+                                                    <img src="{%static 'images/topics/undraw_Finance_re_gnv2.png' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <div class="custom-block custom-block-overlay">
+                                                <div class="d-flex flex-column h-100">
+                                                    <a href="https://t.me/oybek_travelbot"> <img src="{%static 'images/businesswoman-using-tablet-analysis-graph-company-finance-strategy-statistics-success-concept-planning-future-office-room.jpg' %}" class="custom-block-image img-fluid" alt="">
+            
+                                                    <div class="custom-block-overlay-text d-flex">
+                                                        <div>
+                                                            <h5 class="text-white mb-2">Barcha</h5>
+            
+                                                            <p class="text-white">Telegram orqali Visa va boshqa masalalarda murojat qiling</p>
+            
+                                                            <a href="https://t.me/oybek_travelbot" class="btn custom-btn mt-2 mt-lg-3">Learn More</a>
+                                                        </div>
+            
+                                                        <span class="badge bg-finance rounded-pill ms-auto">on</span></a>
+                                                    </div>
+            
+                                                   
+            
+                                                    <div class="section-overlay"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="tab-pane fade" id="music-tab-pane" role="tabpanel" aria-labelledby="music-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Dubai</h5>
+            
+                                                            <p class="mb-0">Dubai nafaqat sayohat balki bu hayotingizning eng yorqin xotiralari bo'ladi</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-music rounded-pill ms-auto">500</span>
+                                                    </div>
+            
+                                                    <img src="{% static "images/dubai.jpg" %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Dubai</h5>
+            
+                                                            <p class="mb-0">Dubai nafaqat sayohat balki bu hayotingizning eng yorqin xotiralari bo'ladi</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-music rounded-pill ms-auto">500</span>
+                                                    </div>
+            
+                                                    <img src="{% static 'images/Dubai.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Dubai</h5>
+            
+                                                            <p class="mb-0">Dubai nafaqat sayohat balki bu hayotingizning eng yorqin xotiralari bo'ladi</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-music rounded-pill ms-auto">500</span>
+                                                    </div>
+            
+                                                    <img src="{% static 'images/Dubai.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="tab-pane fade" id="education-tab-pane" role="tabpanel" aria-labelledby="education-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-3">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Dubai</h5>
+            
+                                                            <p class="mb-0">Dubai nafaqat sayohat balki bu hayotingizning eng yorqin xotiralari bo'ladi</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-music rounded-pill ms-auto">500</span>
+                                                    </div>
+            
+                                                    <img src="{% static 'images/Dubai.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <div class="custom-block bg-white shadow-lg">
+                                                <a href="topics-detail.html">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <h5 class="mb-2">Dubai</h5>
+            
+                                                            <p class="mb-0">Dubai nafaqat sayohat balki bu hayotingizning eng yorqin xotiralari bo'ladi</p>
+                                                        </div>
+            
+                                                        <span class="badge bg-music rounded-pill ms-auto">500</span>
+                                                    </div>
+            
+                                                    <img src="{% static 'images/Dubai.jpg' %}" class="custom-block-image img-fluid" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="timeline-section section-padding" id="section_3">
+                <div class="section-overlay"></div>
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12 text-center">
+                            <h2 class="text-white mb-4">Biz haqimizda</h1>
+                        </div>
+
+                        <div class="col-lg-10 col-12 mx-auto">
+                            <div class="timeline-container">
+                                <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                                    <div class="list-progress">
+                                        <div class="inner"></div>
+                                    </div>
+
+                                    <li>
+                                        <h4 class="text-white mb-3">Birinchi qadam:</h4>
+
+                                        <p class="text-white">Biz dunyoning eng yaxshi manzillaridan siz uchun sayohatlar tuzamiz</p>
+
+                                        <div class="icon-holder">
+                                          <i class="bi-search"></i>
+                                        </div>
+                                    </li>
+                                    
+                                    <li>
+                                        <h4 class="text-white mb-3">Ikkinchi qadam :</h4>
+
+                                        <p class="text-white">Mehmonxona, transport, gid va ekskursiyalar — hammasini bir joyda taqdim etamiz. Siz faqat rohatlaning.</p>
+
+                                        <div class="icon-holder">
+                                          <i class="bi-bookmark"></i>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <h4 class="text-white mb-3">Uchinchi qadam</h4>
+
+                                        <p class="text-white">Yo‘lda yoki manzilda bo‘lsangiz ham, biz sizni qo‘llab-quvvatlaymiz. Har bir lahza — unutilmas xotira bo‘lishi uchun.</p>
+
+                                        <div class="icon-holder">
+                                          <i class="bi-book"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center mt-5">
+                            <p class="text-white">
+                                Koproq bilmoqchimisiz?
+                                <a href="https://www.instagram.com/oybek_travel/" class="btn custom-btn custom-border-btn ms-3">Instagram</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            
+
+
+            <section class="contact-section section-padding section-bg" id="section_5">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5">Biz bilan boglanish</h2>
+                        </div>
+
+                        <div class="col-lg-5 col-12 mb-4 mb-lg-0">
+                            <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2087.989247654505!2d72.36378105275568!3d40.74781425501966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sru!2s!4v1754378042512!5m2!1sru!2s" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-3 mb-lg- mb-md-0 ms-auto">
+                            <h4 class="mb-3">Manzil:</h4>
+
+                            <p>Tashkent St. Andijan , Uzbekistan</p>
+
+                            <hr>
+
+                            <p class="d-flex align-items-center mb-1">
+                                <span class="me-2">Phone</span>
+
+                                <a href="tel: 998999304241" class="site-footer-link">
+                                    +998999304241
+                                </a>
+                            </p>
+                            <p class="d-flex align-items-center mb-1">
+                                <span class="me-2">Phone</span>
+
+                                <a href="tel: 998884331515" class="site-footer-link">
+                                    +998884331515
+                                </a>
+                            </p>
+
+                            <p class="d-flex align-items-center">
+                                <span class="me-2">Email</span>
+
+                                <a href="mailto:oybektravel@gmail.com" class="site-footer-link">
+                                    oybektravel@gmail.com
+                                </a>
+                            </p>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+<footer class="site-footer section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-12 mb-4 pb-2">
+                        <a class="navbar-brand mb-2" href="index.html">
+                            <img class="logo" src="images/logo.jpg" alt="">
+                            <span>Oybek Travel</span>
+                        </a>
+                    </div>
+
+                  
+
+                    <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                        <h6 class="site-footer-title mb-3">Information</h6>
+
+                        <p class="text-white d-flex mb-1">
+                            <a href="tel: 998999304241" class="site-footer-link">
+                                +998999304241
+                            </a>
+                        </p>
+
+                        <p class="text-white d-flex">
+                            <a href="mailto:oybektravel@gmail.com" class="site-footer-link">
+                                oybektravel@gmail.com
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            English</button>
+
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" type="button">Thai</button></li>
+
+                                <li><button class="dropdown-item" type="button">Myanmar</button></li>
+
+                                <li><button class="dropdown-item" type="button">Arabic</button></li>
+                            </ul>
+                        </div>
+
+                        <p class="copyright-text mt-lg-5 mt-4">Copyright © 2025 Rustam Ortiqaliyev , Oybek Travel</p>
+                        
+                        
+                    </div>
+
+                </div>
+            </div>
+            <!-- Paste this into <body> (preferably near the end) -->
+<div class="floating-social">
+    <a class="float-btn instagram" href="https://www.instagram.com/your_profile" target="_blank" rel="noopener" aria-label="Instagram">
+      <!-- Instagram SVG -->
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A3.8 3.8 0 1 0 15.8 12 3.8 3.8 0 0 0 12 8.2zm5.2-.9a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/>
+        <circle cx="12" cy="12" r="2.7" fill="white" opacity="0"/>
+      </svg>
+    </a>
+  
+    <a class="float-btn telegram" href="https://t.me/your_channel" target="_blank" rel="noopener" aria-label="Telegram">
+      <!-- Telegram SVG -->
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M21.6 3.2L2.7 9.6a1 1 0 0 0 .1 1.9l4.6 1.5 1.8 5.7a1 1 0 0 0 1.8.3l2.3-3.1 4.6 3.5a1 1 0 0 0 1.6-.8V4a1 1 0 0 0-1.3-.8z"/>
+      </svg>
+    </a>
+  </div>
+        </footer>
+<!-- Modal -->
+<div class="modal fade" id="tourModal" tabindex="-1" aria-labelledby="tourModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="modal-body d-flex flex-wrap align-items-center">
+          
+          <!-- Left: Text -->
+          <div class="col-md-6">
+            <h4 id="modal-title"></h4>
+            <p id="modal-description"></p>
+            <span id="modal-price" class="badge bg-primary mb-3"></span>
+  
+            <!-- Booking Button -->
+            <form action="/pay/" method="GET">
+                <input type="hidden" name="title" id="booking-title">
+                <input type="hidden" name="description" id="booking-description">
+                <input type="hidden" name="price" id="booking-price">
+                <input type="hidden" name="duration" id="booking-duration" value="2 days">
+                <input type="hidden" name="tourists" id="booking-tourists" value="1">
+                <input type="hidden" name="description" id="booking-description">
+                <input type="hidden" name="price" id="booking-price">
+                <button type="button" class="btn btn-success mt-2" onclick="goToPayment('booking')">Buyurtma</button>
+                <button type="button" class="btn btn-primary mt-2" onclick="goToPayment('question')">Savollar</button>
+              </form>
+            </div>
+    
+  
+          <!-- Right: Image -->
+          <div class="col-md-6 text-end">
+            <img id="modal-image" src="" alt="Tour Image" class="img-fluid rounded">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script> 
+        <script>
+       
+                document.addEventListener("DOMContentLoaded", function () {
+                    const cards = document.querySelectorAll(".custom-block");
+                
+                    cards.forEach(card => {
+                        card.addEventListener("click", function (e) {
+                            e.preventDefault();
+                
+                            const title = this.querySelector("h5")?.innerText || "";
+                            const desc = this.querySelector("p")?.innerText || "";
+                            const price = this.querySelector(".badge")?.innerText || "";
+                            const img = this.querySelector("img")?.getAttribute("src") || "";
+                
+                            // Populate modal content
+                            document.getElementById("modal-title").innerText = title;
+                            document.getElementById("modal-description").innerText = desc;
+                            document.getElementById("modal-price").innerText = price;
+                            document.getElementById("modal-image").setAttribute("src", img);
+                
+                            // Populate booking form inputs
+                            document.getElementById("booking-title").value = title;
+                            document.getElementById("booking-description").value = desc;
+                            document.getElementById("booking-price").value = price;
+                
+                            // Show modal
+                            const modal = new bootstrap.Modal(document.getElementById("tourModal"));
+                            modal.show();
+                        });
+                    });
+                });
+                </script>
+                <script>
+                    function goToPayment(mode) {
+                        mode = mode || 'booking';  // default to booking if undefined
+                    
+                        const title = document.getElementById("booking-title").value;
+                        const description = document.getElementById("booking-description").value;
+                        const price = document.getElementById("booking-price").value;
+                        const duration = document.getElementById("booking-duration").value;
+                        const tourists = document.getElementById("booking-tourists").value;
+                    
+                        const params = new URLSearchParams({
+                            mode,
+                            title,
+                            description,
+                            price,
+                            duration,
+                            tourists
+                        });
+                    
+                        window.location.href = `/payment/?${params.toString()}`;
+                    }
+                    
+                    
+                    
+                    </script>
+    </body>
+</html>

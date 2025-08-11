@@ -1,0 +1,290 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To'lov sahifasi / Savol berish</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url({% static 'images/arslon.jpg' %});
+            background-size: cover;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* ✅ Payment button selected style */
+.payment-btn.selected {
+    background-color: #4CAF50;
+    color: white;
+    position: relative;
+}
+.payment-btn.selected::after {
+    content: "✔";
+    position: absolute;
+    right: 10px;
+    font-weight: bold;
+}
+        .payment-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 10px;
+        }
+        .form-section h3, .payment-methods h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 15px; border: 2px solid #e0e0e0;
+            border-radius: 12px; font-size: 1em; background: white;
+        }
+        .payment-buttons {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            margin-bottom: 30px;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 650px;
+            right: -1px;   /* distance from right */
+            background-color: #007bff; /* Bootstrap blue */
+            color: white;
+            font-size: 20px;
+            padding: 12px 16px;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 9999; 
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+        .payment-btn {
+            aspect-ratio: 1; border: 3px solid #e0e0e0; border-radius: 16px; background: white;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .payment-btn img { width: 100%; height: 100%; object-fit: cover; }
+        .submit-btn {
+            width: 100%; padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 16px; font-size: 1.1em; font-weight: 700;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) { .payment-container { height: auto; } }
+        .success-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); display: none;
+            align-items: center; justify-content: center; z-index: 1000;
+        }
+        .success-message {
+            background: white; padding: 40px; border-radius: 20px; text-align: center;
+            max-width: 400px;
+        }
+        .success-icon { font-size: 4em; color: #4CAF50; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<div class="payment-container">
+    <div class="header">
+        <h1>Oybek Travel</h1>
+        <p id="pageTitle">Loading...</p>
+    </div>
+
+    <!-- Ask Question Section -->
+    <div id="questionSection" style="display:none;">
+        <div class="form-section">
+            <h3>Savolingizni yozing</h3>
+            <div class="form-group">
+                <label for="fullNameQ">To'liq ism *</label>
+                <input type="text" id="fullNameQ" required placeholder="Ismingizni kiriting">
+            </div>
+            <div class="form-group">
+                <label for="phoneQ">Telefon raqami *</label>
+                <input type="tel" id="phoneQ" required placeholder="+998 90 123 45 67">
+            </div>
+            <div class="form-group">
+                <label for="emailQ">Email manzili *</label>
+                <input type="email" id="emailQ" required placeholder="example@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="questionText">Savol *</label>
+                <textarea id="questionText" rows="4" placeholder="Savolingizni kiriting"></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitQuestion()">📩 Yuborish</button>
+        </div>
+    </div>
+    <a href="#" class="back-button" onclick="event.preventDefault(); window.history.back();">⬅</a>
+    <!-- Booking Section -->
+    <div id="bookingSection" style="display:none;">
+        <div class="booking-info" style="background:#f093fb;padding:20px;border-radius:12px;color:white;">
+            <h3>Buyurtma ma'lumotlari</h3>
+            <div class="info-row"><span>Joy:</span><span id="location">{{ title }}</span></div>
+            <div class="info-row"><span>Davomiyligi:</span><span id="duration">{{ duration }}</span></div>
+            <div class="info-row"><span>Umumiy narx:</span><span id="totalPrice">{{ price_display }}</span></div>
+            <div class="info-row"><span>To'lanadigan miqdor (50%):</span><span id="payAmount">{{ pay_display }}</span></div>
+            
+        </div>
+
+        <div class="form-section">
+            <h3>Ma'lumotlarni to'ldiring</h3>
+            <div class="form-group">
+                <label for="fullNameB">To'liq ism *</label>
+                <input type="text" id="fullNameB" required placeholder="Ismingizni kiriting">
+            </div>
+            <div class="form-group">
+                <label for="phoneB">Telefon raqami *</label>
+                <input type="tel" id="phoneB" required placeholder="+998 90 123 45 67">
+            </div>
+            <div class="form-group">
+                <label for="emailB">Email manzili *</label>
+                <input type="email" id="emailB" required placeholder="example@gmail.com">
+            </div>
+        </div>
+
+        <div class="payment-methods">
+            <h3>To'lov usulini tanlang</h3>
+            <div class="payment-buttons">
+                <div class="payment-btn" data-method="click" onclick="selectPayment('click')">
+                    <img src="{% static 'images/clickuz.png' %}" alt="Click">
+                </div>
+                <div class="payment-btn" data-method="payme" onclick="selectPayment('payme')">
+                    <img src="{% static 'images/payme.png' %}" alt="Payme">
+                </div>
+                <div class="payment-btn" data-method="visa" onclick="selectPayment('visa')">
+                    <img src="{% static 'images/visa.png' %}" alt="Visa">
+                </div>
+            </div>
+            <button class="submit-btn" onclick="processPayment()">💳 To'lovni amalga oshirish</button>
+        </div>
+    </div>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+    <div class="success-message">
+        <div class="success-icon">✅</div>
+        <h2>Muvaffaqiyatli!</h2>
+        <p>Ma'lumot yuborildi.</p>
+    </div>
+</div>
+
+<script>
+    let selectedPaymentMethod = null;
+    
+    function getUrlParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const mode = getUrlParam("mode");
+        if (mode === "question") {
+            document.getElementById("pageTitle").textContent = "Savol berish";
+            document.getElementById("questionSection").style.display = "block";
+        } else {
+            document.getElementById("pageTitle").textContent = "To'lov sahifasi";
+            document.getElementById("bookingSection").style.display = "block";
+        }
+    });
+    
+    function submitQuestion() {
+        const fullName = document.getElementById("fullNameQ").value.trim();
+        const phone = document.getElementById("phoneQ").value.trim();
+        const email = document.getElementById("emailQ").value.trim();
+        const questionText = document.getElementById("questionText").value.trim();
+    
+        if (!fullName || !phone || !email || !questionText) {
+            alert("Iltimos, barcha maydonlarni to'ldiring!");
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append("formType", "question");
+        formData.append("fullName", fullName);
+        formData.append("phone", phone);
+        formData.append("email", email);
+        formData.append("question", questionText);
+    
+        fetch("https://formspree.io/f/xvgrvlrd", {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(res => {
+            if (res.ok) {
+                document.getElementById('successOverlay').style.display = 'flex';
+                setTimeout(() => window.location.href = "/", 2000);
+            } else {
+                alert("Xatolik: yuborishda muammo yuz berdi.");
+            }
+        });
+    }
+    
+    function selectPayment(method) {
+        selectedPaymentMethod = method;
+        document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
+        document.querySelector(`[data-method="${method}"]`).classList.add('selected');
+    }
+    
+    function processPayment() {
+        const fullName = document.getElementById("fullNameB").value.trim();
+        const phone = document.getElementById("phoneB").value.trim();
+        const email = document.getElementById("emailB").value.trim();
+    
+        if (!fullName || !phone || !email || !selectedPaymentMethod) {
+            alert("Iltimos, barcha maydonlarni to'ldiring va to'lov usulini tanlang!");
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append("formType", "booking");
+        formData.append("title", document.getElementById("location").innerText);
+        formData.append("fullName", fullName);
+        formData.append("phone", phone);
+        formData.append("email", email);
+        formData.append("paymentMethod", selectedPaymentMethod);
+    
+        fetch("https://formspree.io/f/xvgrvlrd", {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(res => {
+            if (res.ok) {
+                document.getElementById('successOverlay').style.display = 'flex';
+                setTimeout(() => window.location.href = "/", 2000);
+            } else {
+                alert("Xatolik: yuborishda muammo yuz berdi.");
+            }
+        });
+    }
+    </script>
+</body>
+</html>
